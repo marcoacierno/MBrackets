@@ -16,4 +16,4 @@ Features
 
 ToDo
 =========
-* Se la { } è contenuta in un #if define non è valida.
+* Se la { } è contenuta in un #if define il programma non lo riconosce.
