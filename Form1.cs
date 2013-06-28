@@ -49,10 +49,11 @@ namespace MBrackets
                     using (StreamReader sr = new StreamReader(file))
                     {
                         richTextBox1.AppendText(sr.ReadToEnd());
-                        richTextBox1.SelectionStart = 0;
-                        toolStripStatusLabel1.Text = "File " + Path.GetFileName(file) + " aperto.";
-                        this.Text = "Missing Brackets [" + Path.GetFileName(file) + "]";
                     }
+
+                    richTextBox1.SelectionStart = 0;
+                    toolStripStatusLabel1.Text = "File " + Path.GetFileName(file) + " aperto.";
+                    this.Text = "Missing Brackets [" + Path.GetFileName(file) + "]";
                 }));
             }).Start();
         }
