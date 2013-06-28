@@ -64,6 +64,8 @@ namespace MBrackets
             {
                 BeginInvoke(new MethodInvoker(() =>
                 {
+                    richTextBox1.Enabled = false;
+
                     int aperte = 0;
                     int chiuse = 0;
 
@@ -73,6 +75,7 @@ namespace MBrackets
                     }
 
                     Parser.Clear();
+                    richTextBox1.Enabled = true;
 
                     MessageBox.Show("Aperte: " + aperte + " Chiuse: " + chiuse);
 
