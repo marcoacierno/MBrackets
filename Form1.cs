@@ -117,12 +117,5 @@ namespace MBrackets
         {
             richTextBox1.Paste();
         }
-
-
-
-
-        /*            char carattere = richTextBox1.GetCharFromPosition(Cursor.Position);
-
-            toolStripStatusLabel1.Text = carattere.ToString();*/
     }
 }

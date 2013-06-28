@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Collections.Generic;
 
 namespace MBrackets
 {
@@ -7,21 +8,15 @@ namespace MBrackets
     {
         static bool in_string = false;
         static bool in_comment = false;
-        static int  nline = 0;
 
         public static void Analisi(string line, ref int aperte, ref int chiuse)
         {
             if (line == null) return;
-            nline++;
 
             // i dont love this code; but works lul
 
             char c;             // Rappresenta il carattere del ciclo attuale    (  i  )
             char c2 = '\0';     // Rappresenza il carattere del ciclo precedente (i - 1)
-
-            /*
-             * 
-             */
 
             for (int i = 0; i < line.Length; ++i)
             {
@@ -72,7 +67,6 @@ namespace MBrackets
         {
             in_comment = false;
             in_string  = false;
-            nline = 0;
         }
     }
 }
