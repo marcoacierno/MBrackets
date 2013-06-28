@@ -22,3 +22,7 @@ Ready to use
 =========
 Download here:
 http://revonline.comuf.com/vari/MBrackets.rar
+
+Require NET Framework 2.0 or above.
+
+Tested with: Windows 7, Windows XP.
