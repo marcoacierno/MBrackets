@@ -30,16 +30,6 @@ namespace MBrackets
             evidenziaSezioneToolStripMenuItem.Enabled = false;
         }
 
-        private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
-        {
-       
-        }
-
-        private void aToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void apriFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.ShowDialog();
@@ -108,7 +98,8 @@ namespace MBrackets
                             else
                             {
                                 parentesi_valori[i, 0] = richTextBox1.GetFirstCharIndexFromLine(Parser.posizioni_inizio[i, 0]) + Parser.posizioni_inizio[i, 1];
-                                parentesi_valori[i, 1] = Count_Length(Parser.posizioni_inizio[i, 0], Parser.posizioni_inizio[i, 1], Parser.posizioni_fine[i, 0], Parser.posizioni_fine[i, 1]);
+                                
+                                parentesi_valori[i, 1] = ((richTextBox1.GetFirstCharIndexFromLine(Parser.posizioni_fine[i, 0]) + Parser.posizioni_fine[i, 1]) - parentesi_valori[i, 0]) + 1;
                             }
                         }
 
@@ -170,27 +161,15 @@ namespace MBrackets
                 current_idx = 0;
             }
 
-            richTextBox1.Select(parentesi_valori[current_idx, 0], parentesi_valori[current_idx, 1]);
-        }
-
-        // inefficient? to test.
-        // A => line start
-        // B => finish line
-        // cPos => {
-        // cPosB => }
-        private int Count_Length(int A, int cPos, int B, int cPosB)
-        {
-            int tot =
-                richTextBox1.Lines[A].Substring(cPos).Length + 1;
-
-            for (int i = A+1; i < B; i++)
+            try
             {
-                tot += richTextBox1.Lines[i].Length + 1;
+                richTextBox1.Select(parentesi_valori[current_idx, 0], parentesi_valori[current_idx, 1]);
             }
-
-            tot += richTextBox1.Lines[B].Substring(0, cPosB).Length + 1;
-
-            return tot;
+            catch(Exception)
+            {
+                current_idx = 0;
+                richTextBox1.Select(parentesi_valori[0, 0], parentesi_valori[0, 1]);
+            }
         }
 
         private void calcolaRegioniToolStripMenuItem_Click(object sender, EventArgs e)
