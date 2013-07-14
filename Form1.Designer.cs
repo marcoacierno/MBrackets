@@ -42,7 +42,14 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.calcolaRegioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.coloraCodiceToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.calcolaRegioniToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.valutaDefinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selezionaTuttoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.salvaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -51,16 +58,18 @@
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.iniziaAnalisiToolStripMenuItem1,
-            this.calcolaRegioniToolStripMenuItem,
             this.evidenziaSezioneToolStripMenuItem,
+            this.settingsToolStripMenuItem,
             this.toolStripSeparator3,
             this.pulisciToolStripMenuItem,
             this.copiaToolStripMenuItem,
             this.incollToolStripMenuItem,
+            this.selezionaTuttoToolStripMenuItem,
             this.toolStripSeparator1,
-            this.apriFileToolStripMenuItem});
+            this.apriFileToolStripMenuItem,
+            this.salvaToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(185, 170);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(185, 214);
             // 
             // iniziaAnalisiToolStripMenuItem1
             // 
@@ -123,7 +132,8 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
+            this.toolStripStatusLabel1,
+            this.toolStripStatusLabel2});
             this.statusStrip1.Location = new System.Drawing.Point(0, 628);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(802, 22);
@@ -150,12 +160,63 @@
             this.richTextBox1.WordWrap = false;
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
-            // calcolaRegioniToolStripMenuItem
+            // settingsToolStripMenuItem
             // 
-            this.calcolaRegioniToolStripMenuItem.Name = "calcolaRegioniToolStripMenuItem";
-            this.calcolaRegioniToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.calcolaRegioniToolStripMenuItem.Text = "Calcola regioni";
-            this.calcolaRegioniToolStripMenuItem.Click += new System.EventHandler(this.calcolaRegioniToolStripMenuItem_Click);
+            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.coloraCodiceToolStripMenuItem1,
+            this.calcolaRegioniToolStripMenuItem1,
+            this.valutaDefinesToolStripMenuItem});
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            // 
+            // coloraCodiceToolStripMenuItem1
+            // 
+            this.coloraCodiceToolStripMenuItem1.Name = "coloraCodiceToolStripMenuItem1";
+            this.coloraCodiceToolStripMenuItem1.Size = new System.Drawing.Size(153, 22);
+            this.coloraCodiceToolStripMenuItem1.Text = "Colora codice";
+            this.coloraCodiceToolStripMenuItem1.Click += new System.EventHandler(this.coloraCodiceToolStripMenuItem1_Click);
+            // 
+            // calcolaRegioniToolStripMenuItem1
+            // 
+            this.calcolaRegioniToolStripMenuItem1.Name = "calcolaRegioniToolStripMenuItem1";
+            this.calcolaRegioniToolStripMenuItem1.Size = new System.Drawing.Size(153, 22);
+            this.calcolaRegioniToolStripMenuItem1.Text = "Calcola regioni";
+            this.calcolaRegioniToolStripMenuItem1.Click += new System.EventHandler(this.calcolaRegioniToolStripMenuItem1_Click);
+            // 
+            // valutaDefinesToolStripMenuItem
+            // 
+            this.valutaDefinesToolStripMenuItem.Name = "valutaDefinesToolStripMenuItem";
+            this.valutaDefinesToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.valutaDefinesToolStripMenuItem.Text = "Valuta defines";
+            this.valutaDefinesToolStripMenuItem.Click += new System.EventHandler(this.valutaDefinesToolStripMenuItem_Click);
+            // 
+            // selezionaTuttoToolStripMenuItem
+            // 
+            this.selezionaTuttoToolStripMenuItem.Name = "selezionaTuttoToolStripMenuItem";
+            this.selezionaTuttoToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.selezionaTuttoToolStripMenuItem.Text = "Seleziona tutto";
+            this.selezionaTuttoToolStripMenuItem.Click += new System.EventHandler(this.selezionaTuttoToolStripMenuItem_Click);
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(311, 17);
+            this.toolStripStatusLabel2.Text = "Hai eseguito delle modifiche al file, clicca qui per salvarlo.";
+            this.toolStripStatusLabel2.Click += new System.EventHandler(this.toolStripStatusLabel2_Click);
+            // 
+            // salvaToolStripMenuItem
+            // 
+            this.salvaToolStripMenuItem.Name = "salvaToolStripMenuItem";
+            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.salvaToolStripMenuItem.Text = "Salva";
+            this.salvaToolStripMenuItem.Click += new System.EventHandler(this.salvaToolStripMenuItem_Click);
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.DefaultExt = "pwn";
+            this.saveFileDialog1.Filter = "Tutti i file|*.*|File PWN|*.pwn|File INC|*.inc|File P|*.p";
+            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
             // Form1
             // 
@@ -191,7 +252,14 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripMenuItem calcolaRegioniToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem coloraCodiceToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem calcolaRegioniToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem valutaDefinesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem selezionaTuttoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripMenuItem salvaToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

@@ -18,16 +18,25 @@ namespace MBrackets
 
         int current_idx = -1;// -1 perchè il primo indice è 0
 
+        bool file_open = false;
+        string file_in_use = string.Empty;
+
         public Form1()
         {
             InitializeComponent();
 
             evidenziaSezioneToolStripMenuItem.Enabled = false;
+            toolStripStatusLabel2.Visible = false;
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
             evidenziaSezioneToolStripMenuItem.Enabled = false;
+
+            if(file_open)
+            {
+                toolStripStatusLabel2.Visible = true;
+            }
         }
 
         private void apriFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -52,12 +61,19 @@ namespace MBrackets
 
                     evidenziaSezioneToolStripMenuItem.Enabled = false;
                     richTextBox1.SelectionStart = 0;
-                    toolStripStatusLabel1.Text = "File " + Path.GetFileName(file) + " aperto.";
-                    this.Text = "Missing Brackets [" + Path.GetFileName(file) + "]";
+
+                    string fname = Path.GetFileName(file);
+
+                    toolStripStatusLabel1.Text = "File " + fname + " aperto.";
+                    this.Text = "Missing Brackets [" + fname + "]";
+                    file_in_use = file;
+                    file_open = true;
+                    toolStripStatusLabel2.Visible = false;
                 }));
             }).Start();
         }
 
+        #region Analisi
         private void iniziaAnalisiToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = "Attendere..";
@@ -67,8 +83,22 @@ namespace MBrackets
                 BeginInvoke(new MethodInvoker(() =>
                 {
                     richTextBox1.Enabled = false;
+
                     int aperte = 0;
                     int chiuse = 0;
+
+                    int sel = richTextBox1.SelectionStart;
+                    int len = richTextBox1.SelectionLength;
+
+                    // clear colors
+                    richTextBox1.Select(0, richTextBox1.TextLength);
+                    richTextBox1.SelectionColor = Color.Black;
+
+                    // parser config
+                    //coloraCodiceToolStripMenuItem1
+                    Parser.use_colors = coloraCodiceToolStripMenuItem1.Checked;
+                    Parser.read_regions = calcolaRegioniToolStripMenuItem1.Checked;
+                    Parser.parse_defines = valutaDefinesToolStripMenuItem.Checked;
 
                     foreach (string line in richTextBox1.Lines)
                     {
@@ -83,7 +113,7 @@ namespace MBrackets
                         Array.Clear(parentesi_valori, 0, parentesi_valori.Length);
                     }
 
-                    if (calcolaRegioniToolStripMenuItem.Checked)
+                    if (calcolaRegioniToolStripMenuItem1.Checked)
                     {
                         parentesi_valori = new int[Parser.posizione_idx, 2];
                         parentesi_length = Parser.posizione_idx;
@@ -97,8 +127,7 @@ namespace MBrackets
                             }
                             else
                             {
-                                parentesi_valori[i, 0] = richTextBox1.GetFirstCharIndexFromLine(Parser.posizioni_inizio[i, 0]) + Parser.posizioni_inizio[i, 1];
-                                
+                                parentesi_valori[i, 0] = richTextBox1.GetFirstCharIndexFromLine(Parser.posizioni_inizio[i, 0]) + Parser.posizioni_inizio[i, 1];           
                                 parentesi_valori[i, 1] = ((richTextBox1.GetFirstCharIndexFromLine(Parser.posizioni_fine[i, 0]) + Parser.posizioni_fine[i, 1]) - parentesi_valori[i, 0]) + 1;
                             }
                         }
@@ -107,10 +136,13 @@ namespace MBrackets
                     }
                     else evidenziaSezioneToolStripMenuItem.Enabled = false;
 
-                    Parser.Clear();
+                    Parser.Clear(ref this.richTextBox1);
 
                     richTextBox1.Enabled = true;
 
+                    //ripristino il punto dove stava puntato
+                    richTextBox1.SelectionStart = sel;
+                    richTextBox1.SelectionLength = len;
                     // principalmente per motivi di debug (?)
                     // MessageBox.Show("Aperte: " + aperte + " Chiuse: " + chiuse);
 
@@ -121,17 +153,18 @@ namespace MBrackets
                 }));
             }).Start();
         }
-        
-        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
-        {
-        }
+        #endregion
 
+        #region Menu - settings
         private void pulisciToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = "Text area pulita.";
             richTextBox1.Clear();
             evidenziaSezioneToolStripMenuItem.Enabled = false;
             this.Text = "Missing Brackets";
+            file_open = false;
+            toolStripStatusLabel2.Visible = false;
+            file_in_use = string.Empty;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -156,7 +189,7 @@ namespace MBrackets
         {
             current_idx++;
             
-            if (current_idx > parentesi_length)
+            if (current_idx >= parentesi_length)
             {
                 current_idx = 0;
             }
@@ -172,9 +205,88 @@ namespace MBrackets
             }
         }
 
-        private void calcolaRegioniToolStripMenuItem_Click(object sender, EventArgs e)
+        private void coloraCodiceToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            calcolaRegioniToolStripMenuItem.Checked = !calcolaRegioniToolStripMenuItem.Checked;
+            coloraCodiceToolStripMenuItem1.Checked = !coloraCodiceToolStripMenuItem1.Checked;
         }
+
+        private void calcolaRegioniToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            calcolaRegioniToolStripMenuItem1.Checked = !calcolaRegioniToolStripMenuItem1.Checked;
+        }
+
+        private void valutaDefinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            valutaDefinesToolStripMenuItem.Checked = !valutaDefinesToolStripMenuItem.Checked;
+        }
+
+        private void selezionaTuttoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.SelectAll();
+        }
+        #endregion
+
+        #region Salvataggio
+        private void toolStripStatusLabel2_Click(object sender, EventArgs e)
+        {
+            if (file_open && file_in_use != string.Empty)
+            {
+                DoSave();
+            }
+        }
+
+        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+            file_open = true;
+            file_in_use = saveFileDialog1.FileName;
+
+            File.WriteAllLines(file_in_use, richTextBox1.Lines);
+ 
+            string fname = Path.GetFileName(file_in_use);
+
+            toolStripStatusLabel1.Text = "File " + fname + " aperto.";
+            this.Text = "Missing Brackets [" + fname + "]";
+        }
+
+        private void salvaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // verifico che non ho già un altro file aperto
+            if (!file_open && file_in_use == string.Empty)
+            {
+                saveFileDialog1.ShowDialog();
+
+            }
+            else
+            {
+                // salvo il file precedente
+                DoSave();
+            }
+        }
+
+        private void DoSave()
+        {
+            // cancella una vecchia copia
+            if (File.Exists(file_in_use + ".backup"))
+            {
+                File.Delete(file_in_use + ".backup");
+            }
+
+            try
+            {
+                File.Move(file_in_use, file_in_use + ".backup");
+
+                File.WriteAllLines(file_in_use, richTextBox1.Lines);
+
+                File.Delete(file_in_use + ".backup");
+
+                toolStripStatusLabel2.Visible = false;
+            }
+            catch (Exception ee)
+            {
+                toolStripStatusLabel1.Text = "Il salvataggio è andato storto (" + ee.Message + ")";
+            }
+        }
+
+        #endregion
     }
 }
